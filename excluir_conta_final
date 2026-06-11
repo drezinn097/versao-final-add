@@ -1,0 +1,27 @@
+#include "sistema.h"
+
+
+void excluir_conta_final(ListaContas *L) {
+    if (L->Primeiro == NULL) { exibir_msg("A lista de contas ja esta vazia!", 0); return; }
+    
+    ContaBancaria *atual = L->Primeiro;
+    ContaBancaria *anterior = NULL;
+    
+    // Percorre até achar o último
+    while (atual->prox != NULL) {
+        anterior = atual;
+        atual = atual->prox;
+    }
+    
+    if (anterior == NULL) { 
+        // Só tinha uma conta na lista
+        L->Primeiro = NULL; 
+        L->Ultimo = NULL;
+    } else {
+        anterior->prox = NULL; 
+        L->Ultimo = anterior;
+    }
+    
+    free(atual); // Libera a memória!
+    exibir_msg("Conta do FINAL removida com sucesso!", 1);
+}
