@@ -1,0 +1,38 @@
+#include "sistema.h"
+
+    excluir_conta_posicao(ListaContas *L) {
+    if (L->Primeiro == NULL) { exibir_msg("A lista de contas ja esta vazia!", 0); return; }
+    
+    int pos, cont = 1;
+    tela("REMOVER CONTA NA POSICAO"); 
+    gotoxy(24, 8); printf("Digite a Posicao para remover (1, 2, 3...): ");
+    scanf("%d", &pos); limpar_buffer();
+
+    if (pos <= 1) {
+        excluir_conta_inicio(L);
+        return;
+    }
+
+    ContaBancaria *atual = L->Primeiro;
+    ContaBancaria *anterior = NULL;
+    
+    while (atual != NULL && cont < pos) {
+        anterior = atual;
+        atual = atual->prox;
+        cont++;
+    }
+
+    if (atual == NULL) { 
+        exibir_msg("Posicao invalida (maior que o tamanho da lista)!", 0); 
+        return; 
+    }
+
+    anterior->prox = atual->prox; // O de trás pula o que vai ser excluido
+    
+    if (atual->prox == NULL) { // Se excluiu o último
+        L->Ultimo = anterior;
+    }
+    
+    free(atual);
+    exibir_msg("Conta da POSICAO removida com sucesso!", 1);
+}
